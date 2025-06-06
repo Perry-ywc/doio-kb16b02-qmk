@@ -22,7 +22,7 @@ jobs:
           qmk compile -kb doio/kb16b_02 -km default
 
       - name: Upload firmware
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: doio_kb16b02_firmware
           path: qmk_firmware/*.hex
