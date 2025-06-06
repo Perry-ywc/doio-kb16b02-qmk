@@ -1,0 +1,28 @@
+name: Build Firmware
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: qmkfm/qmk_cli
+    steps:
+      - name: Checkout QMK Firmware
+        uses: actions/checkout@v3
+
+      - name: Set up QMK
+        run: |
+          qmk setup -y
+          cp -r keyboards/doio ./qmk_firmware/keyboards/
+
+      - name: Compile firmware
+        run: |
+          cd qmk_firmware
+          qmk compile -kb doio/kb16b_02 -km default
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v3
+        with:
+          name: doio_kb16b02_firmware
+          path: qmk_firmware/*.hex
